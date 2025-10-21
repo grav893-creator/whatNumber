@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What number?</title>
+</head>
+<body>
+    <style>
+        body{
+   background: -webkit-linear-gradient(90deg, #2faaf3,#ee70bd,#de800b);
+    background: linear-gradient(90deg, #2faaf3,#ee70bd,#de800b);
+}
+.snova__item{
+    display: flex;
+    justify-content: space-around;
+}
+.snova{
+    width: 100px;
+    border:3px, solid #f1f1f1;
+    border-radius: 10px;
+    background: -webkit-linear-gradient(90deg, #fad6d4,#fc647c);
+    background: linear-gradient(90deg, #fad6d4,#fc647c);
+    
+}
+.number{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 75px;
+    width: 100px;
+    height: 100px;
+    background-color: #d586b0;
+    border: 10px, solid #f1f1f1;
+    border-radius: 25px;
+    background-image: url(/img/free-icon-question-mark-9796757.png);
+
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: 50px;
+    
+}
+.section2{
+    width: auto;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.one__item{
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-direction: column;
+    align-items: center;
+}
+.two__item{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start
+}
+.section__flex{
+    display: flex;
+    justify-content: space-around;
+    
+}
+.text__one{
+    font-size: 30px;
+    color: #420000;
+    text-decoration: dotted;
+}
+.text__two{
+    font-size: 30px;
+    color: #420000;
+}
+.number__input{
+    color: #f1f1f1;
+    text-align: center; 
+    font-size: 20px;
+    width: 150px;
+    height: 50px;
+    background-color: #d586b0;
+    border: 4px, solid #f1f1f1;
+    border-radius: 25px;
+}
+.play{
+    margin-top: 10px;
+    background-color: #d586b0;
+    border: 2px, solid #f1f1f1;
+    border-radius: 5px;
+}
+.count__records{
+    font-size: 30px;
+    color: #f1f1f1;
+}
+.count{
+    font-size: 30px;
+    color: #f1f1f1;
+}
+
+    </style>
+    <section>
+        <div class="snova__item">
+            <button class="snova"><p class="snova__p">Начать</p></button>
+            <p>(число между 1 и 20)</p>
+        </div>
+    </section>
+    <section>
+        <div class="section2">
+            <p class="text__two">Угадай число!</p>
+             <div class="number">
+                <p class="number__p"></p>
+            </div>
+        </div>
+    </section>
+    <section class="section__flex">
+        <div class="one">
+                <div class="one__item">
+                    <p class="text__one">Начните угадывать</p>
+                    <input type="number" class="number__input" placeholder="Угадай!">
+                    <button class="play" img=><p class="play__p">Проверить</p></button>
+                </div>
+        </div>
+        <div class="two">
+            <div class="two__item">
+                <p class="count">Количество попыток:<span class="count__item">20</span></p>
+                <p class="count__records">Ваш рекорд:0</p>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+let randonNumber
+let bodycolor=document.body
+let count=parseFloat(document.querySelector(".count"))
+let rnd=document.querySelector(".snova");
+let play=document.querySelector(".play");
+let number__p=document.querySelector(".number__p")
+let number__input=document.querySelector('.number__input')
+let text__one=document.querySelector('.text__one')
+let text__two=document.querySelector('.text__two')
+let count__item=document.querySelector('.count__item')
+let counter = 20
+let count__records=document.querySelector('.count__records')
+const initialCounter = 20;
+let arr=[]
+const audio= new Audio("audio/button-click-double-noisy-close-muted.mp3")
+
+rnd.addEventListener("click",function(){
+    audio.play()
+    randonNumber=parseInt(Math.round(Math.random()*19)+1);
+    console.log(randonNumber);
+    number__input.value = "";
+    document.body.style.background = document.body.style.background = "linear-gradient(90deg, #2faaf3, #ee70bd, #de800b)";
+    text__two.innerHTML='Угадай число!'
+    number__p.parentElement.style.backgroundImage ='';
+    number__p.innerHTML=''
+    text__one.innerHTML='Начните угадывать'
+    counter = initialCounter;
+    count__item.innerHTML=`${counter}`
+})  
+
+play.addEventListener('click',function(){
+    audio.play()
+    number__input=document.querySelector(".number__input")
+    let value=parseInt(number__input.value)
+    
+    if(value==randonNumber){
+        
+        number__p.parentElement.style.backgroundImage = "none";
+        number__p.innerHTML=randonNumber
+        text__one.innerHTML='Поздравляю вас вы угадали! &#127881;'
+        text__two.innerHTML='Начните игру снова! &#128513; '
+        document.body.style.background = "linear-gradient(90deg, #0f5739, #3d8e66, #45c9a4, #46b5a9, #52c9eb)";
+        arr.push(counter);
+        let bestRecords=Math.max(...arr) 
+        count__records.innerHTML=`Ваш рекорд: &#127941; ${bestRecords}`
+    }
+    else if(value>20){
+        text__one.innerHTML='Значение должно быть до 20 &#128557;'
+    }
+    else if(value<1){
+        text__one.innerHTML='Значение должно быть от 1 &#128557;'
+    }
+    else if(value>randonNumber){
+        text__one.innerHTML='Загаданное число меньше  	&#128533;'
+
+        counter--;
+        count__item.innerHTML=counter
+    }
+    else if(value<randonNumber){
+        text__one.innerHTML='Загаданное число больше  	&#128533;'
+        counter--;
+        count__item.innerHTML=counter
+
+    }
+})
+
+    </script>
+</body>
+</html>
